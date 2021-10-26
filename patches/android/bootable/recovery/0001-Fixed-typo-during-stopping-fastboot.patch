@@ -1,0 +1,28 @@
+From e6ead2e9a4346c0e262f2fcc5b743f3c08fc7f5a Mon Sep 17 00:00:00 2001
+From: Dmytro Prokopchuk <dmytro.prokopchuk@globallogic.com>
+Date: Thu, 30 May 2019 14:11:30 +0300
+Subject: [PATCH] Fixed typo during stopping fastboot
+
+Signed-off-by: Dmytro Prokopchuk <dmytro.prokopchuk@globallogic.com>
+Jira-ID: ADM-3063
+Change-Id: I4dcfe69490ee66d34cdb212de8c3ecc009f82339
+---
+ etc/init.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/etc/init.rc b/etc/init.rc
+index 0822aba..ae30921 100644
+--- a/etc/init.rc
++++ b/etc/init.rc
+@@ -134,7 +134,7 @@ on property:sys.usb.config=fastboot
+ 
+ on property:sys.usb.config=none && property:sys.usb.configfs=0
+     stop adbd
+-    stop fastboot
++    stop fastbootd
+     write /sys/class/android_usb/android0/enable 0
+     setprop sys.usb.state ${sys.usb.config}
+ 
+-- 
+2.7.4
+

@@ -1,0 +1,73 @@
+#! /bin/bash
+# SPDX-License-Identifier: Apache-2.0
+#===============================
+#
+# param
+#
+# 2021/09/22 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+#===============================
+
+# First one is used to checkout this version
+# remove it
+shift 1
+
+# Renesas Version
+R_VER=10_1.2
+
+# Android Version
+A_VER=android-10.0.0_r29
+
+#
+# parse option
+#
+USER=userdebug
+while getopts ub opt
+do
+	case $opt in
+		u) USER=user;;
+		b) RCAR_SA6_TYPE=0
+		   RCAR_BOOT_EMMC=0
+		   ;;
+		*) exit 1;;
+	esac
+done
+shift $(expr $OPTIND - 1)
+
+#
+# get main params
+#
+SOC=$1
+BOARD=$2
+
+RP_DIR=${TOP}/scripts/template
+PK_DIR=${TOP}/package/${BOARD}
+SV_DIR=proprietary_${R_VER}
+
+DIR_PROPRIETARY=hardware/renesas/proprietary
+DIR_MODULES=hardware/renesas/modules
+DIR_VHAL=vendor/renesas/hal
+
+DIR_GCC=prebuilts/gcc/linux-x86/aarch64
+GCC_GNU=aarch64-linux-gnu
+
+# SOC
+if [ x${SOC} = xh3_4g ]; then
+	TARGET_BOARD_PLATFORM=r8a7795
+	H3_OPTION=4GB
+elif [ x${SOC} = xh3_8g ]; then
+	TARGET_BOARD_PLATFORM=r8a7795
+	H3_OPTION=8GB
+elif [ x${SOC} = xm3 ]; then
+	TARGET_BOARD_PLATFORM=r8a7796
+elif [ x${SOC} = xm3n ]; then
+	TARGET_BOARD_PLATFORM=r8a77965
+else
+	${TOP}/scripts/usage.sh
+	exit 1
+fi
+
+# BOARD
+if [ ! -d ${TOP}/package/${BOARD} ]; then
+	${TOP}/scripts/usage.sh
+	exit 1
+fi

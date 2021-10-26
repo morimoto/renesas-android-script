@@ -1,0 +1,39 @@
+This file shows the information on software stored under this directory.
+
+OMX Media Component Common Library for Android
+RTM0AC0000XCMCTL30SA90C
+
+OMX Media Component H.263 Decoder Library for Android
+RTM0AC0000XV263D30SA90C
+
+OMX Media Component H.264 Decoder Library for Android
+RTM0AC0000XV264D30SA90C
+
+OMX Media Component H.264 Encoder Library for Android
+RTM0AC0000XV264E30SA90C
+
+OMX Media Component H.265 Decoder Library for Android
+RTM0AC0000XV265D30SA90C
+
+OMX Media Component Video Decoder Common Library for Android
+RTM0AC0000XVCMND30SA90C
+
+OMX Media Component Video Encoder Common Library for Android
+RTM0AC0000XVCMNE30SA90C
+
+OMX Media Component MPEG4 Decoder Library for Android
+RTM0AC0000XVM4VD30SA90C
+
+OMX Media Component VP8 Decoder Library for Android
+RTM0AC0000XVVP8D30SA90C
+
+OMX Media Component VP8 Encoder Library for Android
+RTM0AC0000XVVP8E30SA90C
+
+NOTICE:
+ Copyright(C) 2015-2019 Renesas Electronics Corporation. All rights reserved.
+
+ The software (source codes and / or binaries) must be handled properly
+ according to the license agreement which is agreed by Renesas Electronics Corp.
+ and the user of the software separately.
+

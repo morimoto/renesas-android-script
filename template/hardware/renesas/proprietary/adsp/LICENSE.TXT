@@ -1,0 +1,15 @@
+This file shows the information on software stored under this directory.
+
+ADSP Framework
+RTM8RC0000ZNA3SS00JFAQE Ver.1.0.17
+
+NOTICE:
+ Copyright(C) 2016-2020 Renesas Electronics Corporation.
+ Copyright (c) 2016 by Cadence Design Systems, Inc.  ALL RIGHTS RESERVED.
+
+This software contains the technology owned by Cadence Design Systems, Inc.
+
+ The software (source codes and / or binaries) must be handled properly
+ according to the license agreement which is agreed by Renesas Electronics Corp.
+ and the user of the software separately.
+

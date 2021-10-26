@@ -1,0 +1,31 @@
+From cd5a90569e5dc3de1a1cb69cd3b446deebd99070 Mon Sep 17 00:00:00 2001
+From: Artem Radchenko <artem.radchenko@globallogic.com>
+Date: Wed, 18 Sep 2019 16:18:48 +0300
+Subject: [PATCH] Fixed AddUser button
+
+AddUser button is not clickable after dismissing confirmation dialog
+by clicking outside of dialog window. Fixed by making dialog not cancelable.
+
+JiraId: ADM-3906
+
+Signed-off-by: Artem Radchenko <artem.radchenko@globallogic.com>
+Change-Id: I81cce5385974e0fde8c235cbedaaf28e77ca2bb7
+---
+ src/com/android/car/settings/common/ConfirmationDialogFragment.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/com/android/car/settings/common/ConfirmationDialogFragment.java b/src/com/android/car/settings/common/ConfirmationDialogFragment.java
+index a9e9e68..cca4632 100644
+--- a/src/com/android/car/settings/common/ConfirmationDialogFragment.java
++++ b/src/com/android/car/settings/common/ConfirmationDialogFragment.java
+@@ -168,6 +168,7 @@ public class ConfirmationDialogFragment extends DialogFragment implements
+         dialogFragment.setArguments(args);
+         dialogFragment.setConfirmListener(builder.mConfirmListener);
+         dialogFragment.setRejectListener(builder.mRejectListener);
++        dialogFragment.setCancelable(false);
+         return dialogFragment;
+     }
+ 
+-- 
+2.7.4
+

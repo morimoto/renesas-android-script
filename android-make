@@ -1,0 +1,24 @@
+#! /bin/bash
+# SPDX-License-Identifier: Apache-2.0
+#===============================
+#
+# android-make
+#
+# 2021/09/15 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+#===============================
+TOP=`readlink -f "$0" | xargs dirname | xargs dirname`
+
+${TOP}/scripts/package_unpack.sh	$@
+[ $? != 0 ] && exit
+
+${TOP}/scripts/android_checkout.sh	$@
+[ $? != 0 ] && exit
+
+${TOP}/scripts/package_checkout.sh	$@
+[ $? != 0 ] && exit
+
+${TOP}/scripts/make.sh			$@
+[ $? != 0 ] && exit
+
+${TOP}/scripts/install.sh		$@
+[ $? != 0 ] && exit

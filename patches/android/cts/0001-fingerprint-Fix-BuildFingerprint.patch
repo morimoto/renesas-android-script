@@ -1,0 +1,44 @@
+From 7e441afcfe6f0202d67b2bf629f02b23111826eb Mon Sep 17 00:00:00 2001
+From: Oleh Cherpak <oleh.cherpak@globallogic.com>
+Date: Tue, 29 Oct 2019 13:37:51 +0200
+Subject: [PATCH] fingerprint: Fix BuildFingerprint
+
+BUILD_VERSION_TAGS variable could contain few tags
+separated by commas. (see build/core/Makefile:309)
+
+Jira-Id: ADM-3843
+
+Signed-off-by: Oleh Cherpak <oleh.cherpak@globallogic.com>
+Change-Id: I1ae7cbc7ac6cde90ba859ac850278ae847d66157
+---
+ tests/tests/os/src/android/os/cts/BuildVersionTest.java | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/tests/tests/os/src/android/os/cts/BuildVersionTest.java b/tests/tests/os/src/android/os/cts/BuildVersionTest.java
+index 1243712..fb18b24 100644
+--- a/tests/tests/os/src/android/os/cts/BuildVersionTest.java
++++ b/tests/tests/os/src/android/os/cts/BuildVersionTest.java
+@@ -37,7 +37,7 @@ public class BuildVersionTest extends TestCase {
+     private static final String LOG_TAG = "BuildVersionTest";
+     private static final int EXPECTED_SDK = 29;
+     private static final String EXPECTED_BUILD_VARIANT = "user";
+-    private static final String EXPECTED_TAG = "release-keys";
++    private static final String EXPECTED_KEYS = "release-keys";
+     private static final String PLATFORM_VERSIONS_FILE = "platform_versions.txt";
+ 
+     @SuppressWarnings("deprecation")
+@@ -82,7 +82,10 @@ public class BuildVersionTest extends TestCase {
+         String[] buildNumberVariant = fingerprintSegs[4].split(":");
+         String buildVariant = buildNumberVariant[1];
+         assertEquals("Variant", EXPECTED_BUILD_VARIANT, buildVariant);
+-        assertEquals("Tag", EXPECTED_TAG, fingerprintSegs[5]);
++
++        String[] buildTags = fingerprintSegs[5].split(",");
++        String buildKeys = buildTags[buildTags.length - 1];
++        assertEquals("Keys", EXPECTED_KEYS, buildKeys);
+     }
+ 
+     public void testPartitions() {
+-- 
+2.7.4
+
