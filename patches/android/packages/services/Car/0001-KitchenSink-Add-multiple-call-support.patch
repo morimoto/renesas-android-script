@@ -1,4 +1,4 @@
-From 107ecf7d517f1672f36365ab9e9fa5365f4d39b5 Mon Sep 17 00:00:00 2001
+From a58c6424f8c2a5dbff87028f87bf265c18605f19 Mon Sep 17 00:00:00 2001
 From: Oleh Cherpak <oleh.cherpak@globallogic.com>
 Date: Thu, 1 Aug 2019 18:11:01 +0300
 Subject: [PATCH] KitchenSink: Add multiple call support
@@ -20,13 +20,13 @@ Test:   - Pair with mobile phone via Bluetooth
 
 Jira-Id: ADM-3562
 Signed-off-by: Oleh Cherpak <oleh.cherpak@globallogic.com>
-Change-Id: I7f354090781c4b702f72593c82851163969e627b
+Change-Id: I2637b754f071573d9481e203742cad53710dde13
 ---
- .../bluetooth/BluetoothHeadsetFragment.java        | 25 +++++++++++-----------
+ .../bluetooth/BluetoothHeadsetFragment.java   | 25 +++++++++----------
  1 file changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/tests/EmbeddedKitchenSinkApp/src/com/google/android/car/kitchensink/bluetooth/BluetoothHeadsetFragment.java b/tests/EmbeddedKitchenSinkApp/src/com/google/android/car/kitchensink/bluetooth/BluetoothHeadsetFragment.java
-index 619a2b3..1e30850 100644
+index 619a2b332..1e3085024 100644
 --- a/tests/EmbeddedKitchenSinkApp/src/com/google/android/car/kitchensink/bluetooth/BluetoothHeadsetFragment.java
 +++ b/tests/EmbeddedKitchenSinkApp/src/com/google/android/car/kitchensink/bluetooth/BluetoothHeadsetFragment.java
 @@ -36,6 +36,8 @@ import android.widget.EditText;
@@ -88,5 +88,5 @@ index 619a2b3..1e30850 100644
          } else {
              Log.w(TAG, "No outgoing call to terminate");
 -- 
-2.7.4
+2.28.0
 

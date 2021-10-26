@@ -1,4 +1,4 @@
-From 76a8f17fa879ce35e2fbd1c0c5603a3f4a61e16e Mon Sep 17 00:00:00 2001
+From 80940d156f296e66223972995f0dd4876b644053 Mon Sep 17 00:00:00 2001
 From: bxu10x <bingx.xu@intel.com>
 Date: Thu, 30 Aug 2018 11:16:58 +0800
 Subject: [PATCH] telephony: Continue to initialize telecom
@@ -13,15 +13,14 @@ Test: run cts -m CtsTelephonyTestCases -t android.telephony.cts.CarrierConfigMan
 
 Signed-off-by: bxu10x <bingx.xu@intel.com>
 (cherry picked from commit 294f3b8fdf9043f4f5a4922eb72c3d4c4183d775)
-
-Change-Id: Ifbbf6795260c9ff9f62912658ff89e0091180159
+Change-Id: If0ef9298fb021ed14468644808a5d66ce577347d
 ---
- src/com/android/server/telecom/TelecomServiceImpl.java        | 11 +++++++----
- .../server/telecom/components/UserCallIntentProcessor.java    |  8 ++++++--
+ .../android/server/telecom/TelecomServiceImpl.java    | 11 +++++++----
+ .../telecom/components/UserCallIntentProcessor.java   |  8 ++++++--
  2 files changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/src/com/android/server/telecom/TelecomServiceImpl.java b/src/com/android/server/telecom/TelecomServiceImpl.java
-index e8030c8..bbababd 100644
+index e8030c8c5..bbababd24 100644
 --- a/src/com/android/server/telecom/TelecomServiceImpl.java
 +++ b/src/com/android/server/telecom/TelecomServiceImpl.java
 @@ -445,11 +445,14 @@ public class TelecomServiceImpl {
@@ -44,7 +43,7 @@ index e8030c8..bbababd 100644
                      try {
                          enforcePhoneAccountModificationForPackage(
 diff --git a/src/com/android/server/telecom/components/UserCallIntentProcessor.java b/src/com/android/server/telecom/components/UserCallIntentProcessor.java
-index ae4a7d8..1a6440c 100644
+index ae4a7d803..1a6440c55 100644
 --- a/src/com/android/server/telecom/components/UserCallIntentProcessor.java
 +++ b/src/com/android/server/telecom/components/UserCallIntentProcessor.java
 @@ -29,6 +29,8 @@ import android.telecom.TelecomManager;
@@ -70,5 +69,5 @@ index ae4a7d8..1a6440c 100644
  
          String action = intent.getAction();
 -- 
-2.7.4
+2.28.0
 

@@ -1,4 +1,4 @@
-From 310907397397ee6f9782db4c775441043fcd1061 Mon Sep 17 00:00:00 2001
+From edade42d33fd9eeab23e1ca676a1d265e25eccb8 Mon Sep 17 00:00:00 2001
 From: Tom Cherry <tomcherry@google.com>
 Date: Thu, 6 Jun 2019 11:05:52 -0700
 Subject: [PATCH] init.rc: move rlimit setting earlier
@@ -12,13 +12,13 @@ Jira-Id: ADM-3599
 Bug: 134668377
 Test: apexd-bootstrap can set the priorty service option
 Signed-off-by: Oleh Cherpak <oleh.cherpak@globallogic.com>
-Change-Id: Id936bb6aaac0ae8d32b83dbe934b6acdb9604734
+Change-Id: I56fb64861c08f4b8df5d42b9bb7ce2d65b700310
 ---
  rootdir/init.rc | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 0fa9feb..06b8481 100644
+index e898d4dc9..0e70786f9 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -32,6 +32,12 @@ on early-init
@@ -48,5 +48,5 @@ index 0fa9feb..06b8481 100644
      # that they can be chown'd to system:system later on boot
      write /sys/class/leds/vibrator/trigger "transient"
 -- 
-2.7.4
+2.28.0
 

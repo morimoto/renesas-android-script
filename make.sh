@@ -22,6 +22,10 @@ export LC_ALL=C
 [ x${RCAR_SA6_TYPE}	!= x ] && export RCAR_SA6_TYPE=${RCAR_SA6_TYPE}
 [ x${RCAR_BOOT_EMMC}	!= x ] && export RCAR_BOOT_EMMC=${RCAR_BOOT_EMMC}
 
+# CMS/ADSP
+[ -d ${PK_DIR}/${SV_DIR}/cms  ] && export ENABLE_CMS=true
+[ -d ${PK_DIR}/${SV_DIR}/adsp ] && export ENABLE_ADSP=true
+
 #
 # prepare
 #

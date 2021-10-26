@@ -34,7 +34,8 @@ POWERVR_PREBUILT_LIBS := \
 
 POWERVR_PREBUILT_EXEC := \
     pvrsrvctl \
-    rscompiler
+    rscompiler \
+    hw/android.hardware.atrace@1.0-service.img
 
 ifeq ($(TARGET_BOARD_PLATFORM),r8a7795)
 POWERVR_PREBUILT_FW := \
@@ -50,7 +51,9 @@ POWERVR_PREBUILT_FW := \
 endif
 
 POWERVR_PREBUILT_APPHINT := \
-    powervr.ini
+    powervr.ini \
+    init/android.hardware.atrace@1.0-service.img.rc \
+    vintf/manifest/android.hardware.atrace@1.0-service.img.xml
 
 define _build-powervr-prebuilt-lib
 include $$(CLEAR_VARS)

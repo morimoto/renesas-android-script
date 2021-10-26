@@ -1,4 +1,4 @@
-From 10d97a140f7f0fba1dcefeb197127007f80c9bd8 Mon Sep 17 00:00:00 2001
+From 4948196b4ac89fa41e66ce7155d543c51c8f0e3b Mon Sep 17 00:00:00 2001
 From: "o.v.yevtushenko" <o.v.yevtushenko@globallogic.com>
 Date: Fri, 16 Aug 2019 11:53:56 +0300
 Subject: [PATCH] Fix bad command length calculation
@@ -52,11 +52,11 @@ Jira-ID: ADM-3636
 Change-ID: I36d5b94d8eb104947a5c9c97049f7259e7385ce4
 Signed-off-by: o.v.yevtushenko <o.v.yevtushenko@globallogic.com>
 ---
- .../include/composer-command-buffer/2.3/ComposerCommandBuffer.h  | 9 +++++----
+ .../composer-command-buffer/2.3/ComposerCommandBuffer.h  | 9 +++++----
  1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/graphics/composer/2.3/utils/command-buffer/include/composer-command-buffer/2.3/ComposerCommandBuffer.h b/graphics/composer/2.3/utils/command-buffer/include/composer-command-buffer/2.3/ComposerCommandBuffer.h
-index 11863fa..d996bae 100644
+index 11863face..d996bae88 100644
 --- a/graphics/composer/2.3/utils/command-buffer/include/composer-command-buffer/2.3/ComposerCommandBuffer.h
 +++ b/graphics/composer/2.3/utils/command-buffer/include/composer-command-buffer/2.3/ComposerCommandBuffer.h
 @@ -79,6 +79,7 @@ class CommandWriterBase : public V2_2::CommandWriterBase {
@@ -85,5 +85,5 @@ index 11863fa..d996bae 100644
              // metadata content size
              size_t metadataSize = metadataBlob.blob.size() / sizeof(uint32_t);
 -- 
-2.7.4
+2.28.0
 

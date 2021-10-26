@@ -1,7 +1,7 @@
-From 4c9cb805a3bc34d78b6eadb8436cbd5f15efc226 Mon Sep 17 00:00:00 2001
+From d705dc315a8b315e28afdfa5458d7a0b4175c685 Mon Sep 17 00:00:00 2001
 From: Sergii Piatakov <sergii.piatakov@globallogic.com>
 Date: Mon, 10 Feb 2020 12:22:33 +0200
-Subject: [PATCH 4/4] CarSystemUI: handle exception to prevent crash loop
+Subject: [PATCH 03/12] CarSystemUI: handle exception to prevent crash loop
 
 In some cases `CarUserManagerHelper` may throw an exception inside
 `getInitialUser`. For example, the exception may be raised if only
@@ -25,14 +25,14 @@ Jira-Id: ADM-4486
 Change-Id: I78f48dedfbabe56a9132963b2734bc585533f9f4
 Signed-off-by: Sergii Piatakov <sergii.piatakov@globallogic.com>
 ---
- .../android/systemui/statusbar/car/FullscreenUserSwitcher.java    | 8 +++++++-
+ .../systemui/statusbar/car/FullscreenUserSwitcher.java    | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/packages/CarSystemUI/src/com/android/systemui/statusbar/car/FullscreenUserSwitcher.java b/packages/CarSystemUI/src/com/android/systemui/statusbar/car/FullscreenUserSwitcher.java
-index 0f7c1ee..5c89a16 100644
+index 92834e8cd08..12a4e84492e 100644
 --- a/packages/CarSystemUI/src/com/android/systemui/statusbar/car/FullscreenUserSwitcher.java
 +++ b/packages/CarSystemUI/src/com/android/systemui/statusbar/car/FullscreenUserSwitcher.java
-@@ -103,7 +103,13 @@ public class FullscreenUserSwitcher {
+@@ -111,7 +111,13 @@ public class FullscreenUserSwitcher {
      }
  
      private void showDialogForInitialUser() {
@@ -48,5 +48,5 @@ index 0f7c1ee..5c89a16 100644
          mSelectedUser = new UserRecord(initialUserInfo,
                  /* isStartGuestSession= */ false,
 -- 
-2.7.4
+2.28.0
 

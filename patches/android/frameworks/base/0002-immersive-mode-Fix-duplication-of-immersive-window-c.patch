@@ -1,7 +1,7 @@
-From d5c88b3701760c69ff980996c33793f68b809265 Mon Sep 17 00:00:00 2001
+From bbb7bc286ab8fcf76ce46e64075cb6f870c38bfb Mon Sep 17 00:00:00 2001
 From: Dmytro Lavrikov <dmytro.lavrikov@globallogic.com>
 Date: Wed, 21 Aug 2019 17:13:01 +0300
-Subject: [PATCH 2/4] immersive-mode: Fix duplication of immersive window
+Subject: [PATCH 02/12] immersive-mode: Fix duplication of immersive window
  confirmation
 
 Since we have multiple users running at the same time
@@ -14,13 +14,13 @@ so now the check is added to avoid duplication.
 
 Signed-off-by: Dmytro Lavrikov <dmytro.lavrikov@globallogic.com>
 Jira-ID: ADM-3681
-Change-Id: I8f9b259ca7d3abab3ee8d1bc9d1199f513f0782c
+Change-Id: Ic6c490d0400eb8b5cfb85fb159c0726f57eb01bc
 ---
- .../core/java/com/android/server/wm/ImmersiveModeConfirmation.java     | 3 +++
+ .../java/com/android/server/wm/ImmersiveModeConfirmation.java  | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/services/core/java/com/android/server/wm/ImmersiveModeConfirmation.java b/services/core/java/com/android/server/wm/ImmersiveModeConfirmation.java
-index d774dc3..09ee527 100644
+index d774dc3fd2f..09ee5270827 100644
 --- a/services/core/java/com/android/server/wm/ImmersiveModeConfirmation.java
 +++ b/services/core/java/com/android/server/wm/ImmersiveModeConfirmation.java
 @@ -355,6 +355,9 @@ public class ImmersiveModeConfirmation {
@@ -34,5 +34,5 @@ index d774dc3..09ee527 100644
  
          // we will be hiding the nav bar, so layout as if it's already hidden
 -- 
-2.7.4
+2.28.0
 
