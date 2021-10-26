@@ -27,11 +27,11 @@ unlink() {
 android_link() {
 	$1 ${DIR_PROPRIETARY}/gfx
 	$1 ${DIR_PROPRIETARY}/omx
-	$1 ${DIR_PROPRIETARY}/adsp
+	$1 ${DIR_PROPRIETARY}/adsp	${PK_DIR}/${SV_DIR}/adsp
 	$1 ${DIR_PROPRIETARY}/usb
 	$1 ${DIR_MODULES}/gfx
 	$1 ${DIR_MODULES}/uvcs
-	$1 ${DIR_MODULES}/adsp-s492c
+	$1 ${DIR_MODULES}/adsp-s492c	${PK_DIR}/${SV_DIR}/adsp
 	$1 ${DIR_GCC}/${GCC_GNU}
 	$1 ${DIR_VHAL}/cms		${PK_DIR}/${SV_DIR}/cms
 }
@@ -53,6 +53,14 @@ unpack_gfx() {
 		# for proprietary
 		#
 		for gfx in `find . -type f | grep "RTM8RC779.ZGG00Q.0JPAQE_.*/gfx.tar.gz$"`
+		do
+			tar -zxf ${gfx} -C ${RP_DIR}/${DIR_PROPRIETARY}
+		done
+
+		#
+		# kingfisher
+		#
+		for gfx in `find . -type f | grep "INFRTM8RC7795ZGG00Q00JPAQE_.*/INF_gfx.tar.gz$"`
 		do
 			tar -zxf ${gfx} -C ${RP_DIR}/${DIR_PROPRIETARY}
 		done
@@ -128,6 +136,9 @@ unpack_omx() {
 }
 
 unpack_adsp() {
+	# not always exist
+	[ ! -d ${PK_DIR}/${SV_DIR}/adsp ] && return
+
 	#
 	# use --strip-components on tar to ignore folder
 	#

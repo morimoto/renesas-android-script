@@ -71,3 +71,14 @@ if [ ! -d ${TOP}/package/${BOARD} ]; then
 	${TOP}/scripts/usage.sh
 	exit 1
 fi
+
+#
+# Kingfisher Limitation
+#
+if [ ${BOARD} = kingfisher ]; then
+	if [ ${SOC} != h3_4g -a \
+	     ${SOC} != h3_8g ]; then
+		echo "${SOC} is not supported on Kingfisher"
+		exit 1
+	fi
+fi
