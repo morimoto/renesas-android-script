@@ -18,14 +18,14 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE                := r8a779x_usb3_v2.dlmem
-LOCAL_MODULE_CLASS          := FIRMWARE
+LOCAL_MODULE_CLASS          := ETC
 LOCAL_SRC_FILES             := $(LOCAL_MODULE)
 LOCAL_MODULE_PATH           := $(TARGET_OUT_VENDOR_ETC)/firmware
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE                := r8a779x_usb3_v3.dlmem
-LOCAL_MODULE_CLASS          := FIRMWARE
+LOCAL_MODULE_CLASS          := ETC
 LOCAL_SRC_FILES             := $(LOCAL_MODULE)
 LOCAL_MODULE_PATH           := $(TARGET_OUT_VENDOR_ETC)/firmware
 include $(BUILD_PREBUILT)

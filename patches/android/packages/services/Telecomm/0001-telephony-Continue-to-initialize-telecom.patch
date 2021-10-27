@@ -1,61 +1,62 @@
-From 80940d156f296e66223972995f0dd4876b644053 Mon Sep 17 00:00:00 2001
-From: bxu10x <bingx.xu@intel.com>
-Date: Thu, 30 Aug 2018 11:16:58 +0800
+From c7337d1bb69f9a242bc96404de88f1cebe4316ad Mon Sep 17 00:00:00 2001
+From: Oleh Cherpak <oleh.cherpak@globallogic.com>
+Date: Tue, 21 Jul 2020 16:58:28 +0300
 Subject: [PATCH] telephony: Continue to initialize telecom
 
 for supporting Bluetooth Hands-free profile (HFP) on automotive device when "config_voice_capable" is set to false.
 
-Jira task: ADM-2274.
+Jira-Id: ADM-2274.
 Jira-Id: ADM-3840.
+Jira-Id: ADM-4937
 Bug: 70360793
 Test: run cts -m CtsTelephonyTestCases -t android.telephony.cts.CarrierConfigManagerTest#testNotifyConfigChangedForSubId
       run cts -m CtsTelephonyTestCases -t android.telephony.cts.TelephonyManagerTest#testTelephonyManager
 
 Signed-off-by: bxu10x <bingx.xu@intel.com>
-(cherry picked from commit 294f3b8fdf9043f4f5a4922eb72c3d4c4183d775)
-Change-Id: If0ef9298fb021ed14468644808a5d66ce577347d
+Signed-off-by: Oleh Cherpak <oleh.cherpak@globallogic.com>
+Change-Id: I4bf175b405a54e04593afe376a0cc19f9a9c4e4d
 ---
- .../android/server/telecom/TelecomServiceImpl.java    | 11 +++++++----
- .../telecom/components/UserCallIntentProcessor.java   |  8 ++++++--
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ .../android/server/telecom/TelecomServiceImpl.java  | 13 ++++++++-----
+ .../telecom/components/UserCallIntentProcessor.java |  7 +++++--
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/src/com/android/server/telecom/TelecomServiceImpl.java b/src/com/android/server/telecom/TelecomServiceImpl.java
-index e8030c8c5..bbababd24 100644
+index 62e0f3fe1..57c2915c2 100644
 --- a/src/com/android/server/telecom/TelecomServiceImpl.java
 +++ b/src/com/android/server/telecom/TelecomServiceImpl.java
-@@ -445,11 +445,14 @@ public class TelecomServiceImpl {
+@@ -462,11 +462,14 @@ public class TelecomServiceImpl {
              try {
                  Log.startSession("TSI.rPA");
                  synchronized (mLock) {
--                    if (!mContext.getApplicationContext().getResources().getBoolean(
--                            com.android.internal.R.bool.config_voice_capable)) {
+-                    if (!((TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE))
+-                                .isVoiceCapable()) {
 -                        Log.w(this,
+-                                "registerPhoneAccount not allowed on non-voice capable device.");
+-                        return;
 +                    if (!mContext.getPackageManager()
 +                        .hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE)) {
-+                        if (!mContext.getApplicationContext().getResources().getBoolean(
-+                                com.android.internal.R.bool.config_voice_capable)) {
++                        if (!((TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE))
++                                    .isVoiceCapable()) {
 +                            Log.w(this,
-                                 "registerPhoneAccount not allowed on non-voice capable device.");
--                        return;
++                                    "registerPhoneAccount not allowed on non-voice capable device.");
 +                            return;
 +                        }
                      }
                      try {
                          enforcePhoneAccountModificationForPackage(
 diff --git a/src/com/android/server/telecom/components/UserCallIntentProcessor.java b/src/com/android/server/telecom/components/UserCallIntentProcessor.java
-index ae4a7d803..1a6440c55 100644
+index 75c19968f..99cb3f964 100644
 --- a/src/com/android/server/telecom/components/UserCallIntentProcessor.java
 +++ b/src/com/android/server/telecom/components/UserCallIntentProcessor.java
-@@ -29,6 +29,8 @@ import android.telecom.TelecomManager;
+@@ -28,6 +28,7 @@ import android.telecom.TelecomManager;
  import android.telecom.VideoProfile;
  import android.telephony.PhoneNumberUtils;
- import android.text.TextUtils;
+ import android.telephony.TelephonyManager;
 +import android.content.pm.PackageManager;
-+
  
  import com.android.server.telecom.CallIntentProcessor;
  import com.android.server.telecom.R;
-@@ -82,8 +84,10 @@ public class UserCallIntentProcessor {
+@@ -81,8 +82,10 @@ public class UserCallIntentProcessor {
      public void processIntent(Intent intent, String callingPackageName,
              boolean canCallNonEmergency, boolean isLocalInvocation) {
          // Ensure call intents are not processed on devices that are not capable of calling.

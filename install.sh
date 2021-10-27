@@ -30,6 +30,7 @@ LIST="	${TOP}/android/out/target/product/${BOARD}/boot.img
 	${TOP}/android/out/target/product/${BOARD}/ramdisk.img
 	${TOP}/android/out/target/product/${BOARD}/ramdisk-debug.img
 	${TOP}/android/out/target/product/${BOARD}/boot-debug.img
+	${TOP}/android/out/target/product/${BOARD}/vendor_boot.img
 	${TOP}/android/out/target/product/${BOARD}/super.img
 	${TOP}/android/out/target/product/${BOARD}/super_empty.img
 	${TOP}/android/out/target/product/${BOARD}/bl2.srec

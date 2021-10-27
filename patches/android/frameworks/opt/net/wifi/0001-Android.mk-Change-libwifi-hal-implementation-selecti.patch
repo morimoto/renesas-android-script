@@ -1,0 +1,46 @@
+From 18bee774ae44ba41a7aa64ebf408951a408b27de Mon Sep 17 00:00:00 2001
+From: Oleh Cherpak <oleh.cherpak@globallogic.com>
+Date: Fri, 17 Jul 2020 13:37:52 +0300
+Subject: [PATCH] Android.mk: Change libwifi-hal implementation selection
+
+Add posibility to use vendor specific implementation of libwifi-hal
+
+Test: refactoring CL. Existing unit tests still pass.
+Bug: None
+Jira-Id: ADM-4935
+
+Signed-off-by: Oleh Cherpak <oleh.cherpak@globallogic.com>
+Change-Id: If20d8140a757de8c742affcc0007e523f8e63484
+---
+ libwifi_hal/Android.mk | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/libwifi_hal/Android.mk b/libwifi_hal/Android.mk
+index 7bdbc3259..4fc2dbf91 100644
+--- a/libwifi_hal/Android.mk
++++ b/libwifi_hal/Android.mk
+@@ -85,9 +85,10 @@ include $(BUILD_STATIC_LIBRARY)
+ 
+ # Pick a vendor provided HAL implementation library.
+ # ============================================================
+-LIB_WIFI_HAL := libwifi-hal-fallback
+ VENDOR_LOCAL_SHARED_LIBRARIES :=
+-ifeq ($(BOARD_WLAN_DEVICE), bcmdhd)
++ifeq ($(BOARD_WLAN_DEVICE), )
++  LIB_WIFI_HAL := libwifi-hal-fallback
++else ifeq ($(BOARD_WLAN_DEVICE), bcmdhd)
+   LIB_WIFI_HAL := libwifi-hal-bcm
+   VENDOR_LOCAL_SHARED_LIBRARIES := libcrypto
+ else ifeq ($(BOARD_WLAN_DEVICE), qcwcn)
+@@ -105,6 +106,8 @@ else ifeq ($(BOARD_WLAN_DEVICE), realtek)
+   LIB_WIFI_HAL := libwifi-hal-rtk
+ else ifeq ($(BOARD_WLAN_DEVICE), emulator)
+   LIB_WIFI_HAL := libwifi-hal-emu
++else
++  LIB_WIFI_HAL := libwifi-hal-$(BOARD_WLAN_DEVICE)
+ endif
+ 
+ # The WiFi HAL that you should be linking.
+-- 
+2.28.0
+

@@ -1,0 +1,30 @@
+From 67fce9a1b9744bcf223bae5636541bed89b2cd01 Mon Sep 17 00:00:00 2001
+From: Oleksii Gulchenko <oleksii.gulchenko@globallogic.com>
+Date: Thu, 9 Apr 2020 17:37:27 +0300
+Subject: [PATCH] W/A: sepolicy: removed
+ carwatchdog_client_domain(carservice_app)
+
+This rule detected as neverrallow at built time.
+
+Signed-off-by: Oleksii Gulchenko <oleksii.gulchenko@globallogic.com>
+Change-Id: I534d2a3f25c4f156f17a157d09d6509675ce2001
+---
+ car_product/sepolicy/private/carservice_app.te | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/car_product/sepolicy/private/carservice_app.te b/car_product/sepolicy/private/carservice_app.te
+index 49a3c6f46..b4c8a074c 100644
+--- a/car_product/sepolicy/private/carservice_app.te
++++ b/car_product/sepolicy/private/carservice_app.te
+@@ -76,8 +76,6 @@ unix_socket_connect(carservice_app, dumpstate, dumpstate)
+ # Allow reading vehicle-specific configuration
+ get_prop(carservice_app, vehicle_hal_prop)
+ 
+-carwatchdog_client_domain(carservice_app)
+-
+ # For ActivityBlockingActiviy
+ allow carservice_app gpu_device:chr_file rw_file_perms;
+ allow carservice_app gpu_device:dir r_dir_perms;
+-- 
+2.28.0
+

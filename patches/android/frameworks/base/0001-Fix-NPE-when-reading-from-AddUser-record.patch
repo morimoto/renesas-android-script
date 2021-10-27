@@ -1,0 +1,38 @@
+From 478f8fc6db6e032650448c1fb48c5ab32d94bd27 Mon Sep 17 00:00:00 2001
+From: Artem Radchenko <artem.radchenko@globallogic.com>
+Date: Thu, 23 Jul 2020 15:22:28 +0300
+Subject: [PATCH] Fix NPE when reading from AddUser record
+
+AddUser record doesn't have valid id same as GuestUser record,
+so switch user transition should not be shown.
+
+Test: Manual. Set up any secure lock, go to lockscreen,
+try to add new user from lockscreen
+JiraId: ADM-4946
+Signed-off-by: Artem Radchenko <artem.radchenko@globallogic.com>
+Change-Id: I9bc4e41253b2f9338762165baa71e2099fa0fae3
+---
+ .../userswitcher/FullscreenUserSwitcherViewMediator.java   | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java b/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java
+index 8b399f888eb..490cef1bb21 100644
+--- a/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java
++++ b/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java
+@@ -77,9 +77,10 @@ public class FullscreenUserSwitcherViewMediator implements OverlayViewMediator {
+     private void onUserSelected(UserGridRecyclerView.UserRecord record) {
+         if (record.mType != UserGridRecyclerView.UserRecord.FOREGROUND_USER) {
+             mCarKeyguardViewController.hideKeyguardToPrepareBouncer();
+-            // If guest user, we cannot use record.mInfo.id and should listen to the User lifecycle
+-            // event instead.
+-            if (record.mType != UserGridRecyclerView.UserRecord.START_GUEST) {
++            // If guest user or add user, we cannot use record.mInfo.id and should listen to the
++            // User lifecycle event instead.
++            if (record.mType != UserGridRecyclerView.UserRecord.START_GUEST &&
++                record.mType != UserGridRecyclerView.UserRecord.ADD_USER) {
+                 mUserSwitchTransitionViewController.handleShow(record.mInfo.id);
+             }
+         }
+-- 
+2.28.0
+

@@ -52,15 +52,8 @@ unpack_gfx() {
 		#
 		# for proprietary
 		#
-		for gfx in `find . -type f | grep "RTM8RC779.ZGG00Q.0JPAQE_.*/gfx.tar.gz$"`
-		do
-			tar -zxf ${gfx} -C ${RP_DIR}/${DIR_PROPRIETARY}
-		done
+		for gfx in `find . -type f | grep "RTM8RC779.ZGG00Q.0JPARE_.*/gfx.tar.gz$"`
 
-		#
-		# kingfisher
-		#
-		for gfx in `find . -type f | grep "INFRTM8RC7795ZGG00Q00JPAQE_.*/INF_gfx.tar.gz$"`
 		do
 			tar -zxf ${gfx} -C ${RP_DIR}/${DIR_PROPRIETARY}
 		done
@@ -68,7 +61,8 @@ unpack_gfx() {
 		#
 		# for modules
 		#
-		for gfx in `find . -type f | grep "RC.3G001A1001ZDO_.*/gfx.tar.gz$"`
+		for gfx in `find . -type f | grep "RC.3G00.A1101Z.._.*/gfx.tar.gz$"`
+
 		do
 			tar -zxf ${gfx} -C ${RP_DIR}/${DIR_MODULES}
 		done
@@ -77,19 +71,18 @@ unpack_gfx() {
 
 unpack_omx() {
 
-	#	RTM8RC0000ZMD3LQ00JPAQE : not use
-	preb="	RTM8RC0000ZMD0LQ00JPAQE
-		RTM8RC0000ZMD4LQ00JPAQE
-		RTM8RC0000ZME0LQ00JPAQE
-		RTM8RC0000ZMX0LQ00JPAQE
-		RTM8RC0000ZMD1LQ00JPAQE
-		RTM8RC0000ZMD8LQ00JPAQE
-		RTM8RC0000ZME1LQ00JPAQE
-		RTM8RC0000ZMD2LQ00JPAQE
-		RTM8RC0000ZMD9LQ00JPAQE
-		RTM8RC0000ZME8LQ00JPAQE
-		RTM8RC0000ZMDALQ00JPAQE"
-	uvcs="	RTM8RC0000ZMX0DQ00JFAQE"
+	preb="	RTM8RC0000ZMD0LQ00JPARE
+		RTM8RC0000ZMD4LQ00JPARE
+		RTM8RC0000ZME0LQ00JPARE
+		RTM8RC0000ZMX0LQ00JPARE
+		RTM8RC0000ZMD1LQ00JPARE
+		RTM8RC0000ZMD8LQ00JPARE
+		RTM8RC0000ZME1LQ00JPARE
+		RTM8RC0000ZMD2LQ00JPARE
+		RTM8RC0000ZMD9LQ00JPARE
+		RTM8RC0000ZME8LQ00JPARE
+		RTM8RC0000ZMDALQ00JPARE"
+	uvcs="	RTM8RC0000ZMX0DQ00JFARE"
 
 	#
 	# use --strip-components on tar to ignore folder
@@ -155,14 +148,14 @@ unpack_adsp() {
 	#
 	# for proprietary
 	#
-	pkg=RTM8RC0000ZNA3SS00JFAQE
+	pkg=RTM8RC0000ZNA3SS00JFARE
 
 	tar -xf ${PK_DIR}/${SV_DIR}/adsp/${pkg}_*/${pkg}/Software/${pkg}.tar.gz -C ${RP_DIR}/${DIR_PROPRIETARY}/adsp --strip-components 3
 
 	#
 	# for modules
 	#
-	mod=RTM8RC0000ZNA2DS00JFAQE
+	mod=RTM8RC0000ZNA2DS00JFARE
 
 	tar -xf ${PK_DIR}/${SV_DIR}/adsp/${mod}_*/${mod}/Software/${mod}.tar.gz -C ${RP_DIR}/${DIR_MODULES}/adsp-s492c --strip-components 1
 
@@ -201,9 +194,9 @@ unpack_cms() {
 	# not always exist
 	[ ! -d ${PK_DIR}/${SV_DIR}/cms ] && return
 
-	pack[0]=RTM8RC0000ZVC1LQ00JPAQE
-	pack[1]=RTM8RC0000ZVC2LQ00JPAQE
-	pack[2]=RTM8RC0000ZVC3LQ00JPAQE
+	pack[0]=RTM8RC0000ZVC1LQ00JPARE
+	pack[1]=RTM8RC0000ZVC2LQ00JPARE
+	pack[2]=RTM8RC0000ZVC3LQ00JPARE
 
 	dir[0]=libcmsbcm
 	dir[1]=libcmsdgc
@@ -254,6 +247,29 @@ get_gcc() {
 	)
 }
 
+apply_patch() {
+	#
+	# Sometimes Renesas Package need patch.
+	#
+	(
+		cd ${TOP}/scripts/patches/renesas
+		PATCHES=`find -type f | grep "\.patch\$" | sort`
+
+		for PATCH in ${PATCHES}
+		do
+			DIR=`dirname ${PATCH}`
+
+			cd ${TOP}/scripts/template/${DIR}
+			patch -p1 < ${TOP}/scripts/patches/renesas/${PATCH}
+			[ $? != 0 ] && exit 1
+		done
+
+		# last
+		exit 0
+	)
+	[ $? != 0 ] && exit 1
+}
+
 grep ${R_VER}_${BOARD} ${RP_DIR}/version > /dev/null 2>&1
 if [ $? != 0 ]; then
 	android_link	unlink
@@ -264,6 +280,7 @@ if [ $? != 0 ]; then
 	unpack_usb
 	unpack_cms
 	get_gcc
+	apply_patch
 	android_link	link
 fi
 

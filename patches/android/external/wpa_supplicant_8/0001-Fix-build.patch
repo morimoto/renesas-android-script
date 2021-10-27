@@ -1,0 +1,25 @@
+From 169dc38fbd0dff359c58d243cde47b752573d9db Mon Sep 17 00:00:00 2001
+From: "yevhenii.merezhko" <yevhenii.merezhko@globallogic.com>
+Date: Tue, 23 Jun 2020 11:49:38 +0300
+Subject: [PATCH] Fix build
+
+Change-Id: I49fbc7977d2bb03c0f50d95c6597fe46b883daac
+---
+ src/drivers/driver.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/drivers/driver.h b/src/drivers/driver.h
+index e3b13bc2..ab24cdf3 100644
+--- a/src/drivers/driver.h
++++ b/src/drivers/driver.h
+@@ -26,6 +26,7 @@
+ #include "pae/ieee802_1x_kay.h"
+ #endif /* CONFIG_MACSEC */
+ #include "utils/list.h"
++#include <stdbool.h>
+ 
+ #define HOSTAPD_CHAN_DISABLED 0x00000001
+ #define HOSTAPD_CHAN_NO_IR 0x00000002
+-- 
+2.28.0
+

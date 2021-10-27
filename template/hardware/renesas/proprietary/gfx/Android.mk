@@ -20,13 +20,13 @@ ifneq (,$(filter $(TARGET_PRODUCT), salvator ulcb kingfisher))
 LOCAL_PATH:= $(call my-dir)
 
 POWERVR_PREBUILT_LIBS := \
-    egl/libEGL_POWERVR_ROGUE.so \
-    egl/libGLESv1_CM_POWERVR_ROGUE.so \
-    egl/libGLESv2_POWERVR_ROGUE.so \
+    egl/libEGL_powervr.so \
+    egl/libGLESv1_CM_powervr.so \
+    egl/libGLESv2_powervr.so \
     hw/gralloc.$(TARGET_BOARD_PLATFORM).so \
     hw/memtrack.$(TARGET_BOARD_PLATFORM).so \
+    libpvrANDROID_WSEGL.so \
     libPVRScopeServices.so \
-    libPVRRS.so \
     libIMGegl.so \
     libsrv_um.so \
     libusc.so \
@@ -34,20 +34,22 @@ POWERVR_PREBUILT_LIBS := \
 
 POWERVR_PREBUILT_EXEC := \
     pvrsrvctl \
-    rscompiler \
     hw/android.hardware.atrace@1.0-service.img
 
 ifeq ($(TARGET_BOARD_PLATFORM),r8a7795)
 POWERVR_PREBUILT_FW := \
-    rgx.fw.4.46.6.62
+    rgx.fw.4.46.6.62 \
+    rgx.sh.4.46.6.62
 endif
 ifeq ($(TARGET_BOARD_PLATFORM),r8a7796)
 POWERVR_PREBUILT_FW := \
-    rgx.fw.4.45.2.58
+    rgx.fw.4.45.2.58 \
+    rgx.sh.4.45.2.58
 endif
 ifeq ($(TARGET_BOARD_PLATFORM),r8a77965)
 POWERVR_PREBUILT_FW := \
-    rgx.fw.15.5.1.64
+    rgx.fw.15.5.1.64 \
+    rgx.sh.15.5.1.64
 endif
 
 POWERVR_PREBUILT_APPHINT := \
@@ -63,6 +65,7 @@ LOCAL_SRC_FILES_arm         := $2/lib/$1
 LOCAL_SRC_FILES_arm64       := $2/lib64/$1
 LOCAL_MODULE_PATH_32        := $(dir $$(TARGET_OUT_VENDOR)/lib/$1)
 LOCAL_MODULE_PATH_64        := $(dir $$(TARGET_OUT_VENDOR)/lib64/$1)
+LOCAL_CHECK_ELF_FILES       := false
 LOCAL_MULTILIB              := both
 LOCAL_SHARED_LIBRARIES      := libdrm libion
 LOCAL_PROPRIETARY_MODULE    := true
@@ -76,6 +79,7 @@ LOCAL_MODULE                := $(notdir $1)
 LOCAL_MODULE_CLASS          := EXECUTABLES
 LOCAL_SRC_FILES             := $$(TARGET_BOARD_PLATFORM)/vendor/bin/$1
 LOCAL_MODULE_PATH           := $(dir $$(TARGET_OUT_VENDOR)/bin/$1)
+LOCAL_CHECK_ELF_FILES       := false
 LOCAL_MULTILIB              := 64
 LOCAL_PROPRIETARY_MODULE    := true
 _modules += $$(LOCAL_MODULE)

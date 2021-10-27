@@ -1,0 +1,50 @@
+From 8842a7399ac7c3e9a1571bba00b775241ba41583 Mon Sep 17 00:00:00 2001
+From: Oleksandr Shaposhnikov <o.shaposhnikov@globallogic.com>
+Date: Fri, 13 Mar 2020 16:43:34 +0200
+Subject: [PATCH] Fix call log duplication on reboot
+
+Delays account cleaning until LOCKED_BOOT_COMPLETE.
+This fixes failure to delete call logs before user is unlocked.
+
+NOTE: with this patch, Telecom service deletes phone account first
+and cleans the call log, but we have a backup in case that fails.
+
+Jira-Id: ADM-4938
+Signed-off-by: Artem Radchenko <artem.radchenko@globallogic.com>
+Change-Id: I51036de7a644581b94a1f83451e0cdb7897e4e78
+---
+ src/com/android/bluetooth/pbapclient/PbapClientService.java | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/bluetooth/pbapclient/PbapClientService.java b/src/com/android/bluetooth/pbapclient/PbapClientService.java
+index 718683e63..9f6c22cc8 100644
+--- a/src/com/android/bluetooth/pbapclient/PbapClientService.java
++++ b/src/com/android/bluetooth/pbapclient/PbapClientService.java
+@@ -77,13 +77,14 @@ public class PbapClientService extends ProfileService {
+         // To remove call logs when PBAP was never connected while calls were made,
+         // we also listen for HFP to become disconnected.
+         filter.addAction(BluetoothHeadsetClient.ACTION_CONNECTION_STATE_CHANGED);
++        // delay account deletion until all users are unlocked
++        filter.addAction(Intent.ACTION_LOCKED_BOOT_COMPLETED);
+         try {
+             registerReceiver(mPbapBroadcastReceiver, filter);
+         } catch (Exception e) {
+             Log.w(TAG, "Unable to register pbapclient receiver", e);
+         }
+ 
+-        removeUncleanAccounts();
+         registerSdpRecord();
+         setPbapClientService(this);
+         return true;
+@@ -207,6 +208,8 @@ public class PbapClientService extends ProfileService {
+                     // HFP client stores entries in calllog.db by BD_ADDR and component name
+                     removeHfpCallLog(device.getAddress(), context);
+                 }
++            } else if (action.equals(Intent.ACTION_LOCKED_BOOT_COMPLETED)) {
++                removeUncleanAccounts();
+             }
+         }
+     }
+-- 
+2.28.0
+

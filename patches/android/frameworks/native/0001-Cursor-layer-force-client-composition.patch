@@ -1,0 +1,33 @@
+From a97f0a76f508cc66ff9f85199c2c7e251f125594 Mon Sep 17 00:00:00 2001
+From: Andrii Tretiak <andrii.tretiak@globallogic.com>
+Date: Wed, 15 Jul 2020 00:52:22 +0300
+Subject: [PATCH 1/2] Cursor layer: force client composition
+
+It's temporary solution for fix mouse cursor drawing issues and crash on HWC side.
+Changing composition type to Client from HWC side doesn't have affect.
+Additional investigation is required.
+
+Jira-id: ADM-4941 ADM-4679
+Signed-off-by: Andrii Tretiak <andrii.tretiak@globallogic.com>
+Change-Id: I07e52b3f82b7f92b686bf451a2beab38ea079193
+---
+ services/surfaceflinger/CompositionEngine/src/OutputLayer.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/surfaceflinger/CompositionEngine/src/OutputLayer.cpp b/services/surfaceflinger/CompositionEngine/src/OutputLayer.cpp
+index 1faf775ed..98e3a71d4 100644
+--- a/services/surfaceflinger/CompositionEngine/src/OutputLayer.cpp
++++ b/services/surfaceflinger/CompositionEngine/src/OutputLayer.cpp
+@@ -291,7 +291,8 @@ void OutputLayer::updateCompositionState(
+                 calculateOutputRelativeBufferTransform(internalDisplayRotationFlags));
+ 
+         if ((layerFEState->isSecure && !outputState.isSecure) ||
+-            (state.bufferTransform & ui::Transform::ROT_INVALID)) {
++            (state.bufferTransform & ui::Transform::ROT_INVALID) ||
++            (state.hwc->hwcCompositionType == hal::Composition::CURSOR)) {
+             state.forceClientComposition = true;
+         }
+     }
+-- 
+2.28.0
+
