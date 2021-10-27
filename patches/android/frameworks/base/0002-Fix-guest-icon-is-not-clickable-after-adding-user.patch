@@ -1,0 +1,49 @@
+From c0e3b49550a6dd30fe6044f143f05799625377ff Mon Sep 17 00:00:00 2001
+From: Artem Radchenko <artem.radchenko@globallogic.com>
+Date: Wed, 7 Oct 2020 12:15:26 +0300
+Subject: [PATCH 2/5] Fix guest icon is not clickable after adding user
+
+When addUser icon is clicked, it becomes disabled to prevent double clicking.
+And this icon is never enabled again in case of successfull user creation.
+When user is added, icon for New user is added to recycler view before guest icon.
+So, when user selection is opened again guest icon is not clickable, because it is disabled.
+
+Enabling addUser button after successfull user creation fixes this issue.
+
+Test:
+- Set pin: adb shell locksettings set-pin 0000
+- Lock board: adb shell input keyevent KEYCODE_POWER
+- Wake up: adb shell input keyevent KEYCODE_POWER
+- Click cancel button
+- Click "Add User" -> Click Ok
+- Set pin
+- Lock board
+- Wake up
+- Click cancel button
+- Click guest button
+
+JiraId: ADM-5159
+Signed-off-by: Artem Radchenko <artem.radchenko@globallogic.com>
+Change-Id: Ifa85c2c4697d02829a89b295c10d0eec9d8bb738
+(cherry picked from commit 00eafbc3aaa0a41d39024ea9ca55db8308d6b6a1)
+---
+ .../systemui/car/userswitcher/UserGridRecyclerView.java        | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/UserGridRecyclerView.java b/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/UserGridRecyclerView.java
+index 2ff667093e58..a526e6943004 100644
+--- a/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/UserGridRecyclerView.java
++++ b/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/UserGridRecyclerView.java
+@@ -478,6 +478,9 @@ public class UserGridRecyclerView extends RecyclerView {
+                 if (user != null) {
+                     mCarUserManagerHelper.switchToUser(user);
+                 }
++                if (mAddUserView != null) {
++                    mAddUserView.setEnabled(true);
++                }
+             }
+         }
+ 
+-- 
+2.29.0
+

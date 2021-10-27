@@ -1,0 +1,40 @@
+From 3e36d574c365e20c9a02c3325553c0ed990c4ebb Mon Sep 17 00:00:00 2001
+From: Dmytro Gamazin <dmytro.gamazin@globallogic.com>
+Date: Tue, 1 Dec 2020 15:32:01 +0200
+Subject: [PATCH] Add check for storage is not present
+
+Adding the check that device was not added before. Multiple events
+may be from StorageManagerService as from completeUnlockUser
+or onVolumeStateChangedAsync functions
+
+Jira-Id: ADM-5108
+Signed-off-by: Dmytro Gamazin <dmytro.gamazin@globallogic.com>
+Change-Id: I9f820377fdaadf86591a5ff04a33c0328fc15c08
+---
+ src/com/android/mtp/MtpService.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/mtp/MtpService.java b/src/com/android/mtp/MtpService.java
+index 035c0f4..a6f5c9b 100644
+--- a/src/com/android/mtp/MtpService.java
++++ b/src/com/android/mtp/MtpService.java
+@@ -71,7 +71,7 @@ public class MtpService extends Service {
+                     mVolumes = StorageManager.getVolumeList(getUserId(), 0);
+                     for (int i = 0; i < mVolumes.length; i++) {
+                         StorageVolume volume = mVolumes[i];
+-                        if (volume.getPath().equals(path)) {
++                        if (volume.getPath().equals(path) && !mVolumeMap.containsKey(path)) {
+                             mVolumeMap.put(path, volume);
+                             if (mUnlocked && (volume.isPrimary() || !mPtpMode)) {
+                                 addStorage(volume);
+@@ -231,6 +231,7 @@ public class MtpService extends Service {
+     }
+ 
+     private void removeStorage(StorageVolume volume) {
++        Log.v(TAG, "Remove MTP storage:" + volume.getPath());
+         synchronized (MtpService.class) {
+             if (sServerHolder != null) {
+                 sServerHolder.database.removeStorage(volume);
+-- 
+2.29.0
+

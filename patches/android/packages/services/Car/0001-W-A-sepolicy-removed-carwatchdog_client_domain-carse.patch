@@ -1,7 +1,7 @@
-From 67fce9a1b9744bcf223bae5636541bed89b2cd01 Mon Sep 17 00:00:00 2001
+From ae2789e13f72a5f92b7b679343f108f58e0cb6ac Mon Sep 17 00:00:00 2001
 From: Oleksii Gulchenko <oleksii.gulchenko@globallogic.com>
 Date: Thu, 9 Apr 2020 17:37:27 +0300
-Subject: [PATCH] W/A: sepolicy: removed
+Subject: [PATCH 1/2] W/A: sepolicy: removed
  carwatchdog_client_domain(carservice_app)
 
 This rule detected as neverrallow at built time.
@@ -26,5 +26,5 @@ index 49a3c6f46..b4c8a074c 100644
  allow carservice_app gpu_device:chr_file rw_file_perms;
  allow carservice_app gpu_device:dir r_dir_perms;
 -- 
-2.28.0
+2.29.0
 

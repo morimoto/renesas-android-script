@@ -1,7 +1,7 @@
 This file shows the information on software stored under this directory.
 
 ADSP Framework
-RTM8RC0000ZNA3SS00JFARE Ver.1.0.19
+RTM8RC0000ZNA3SS00JFARE Ver.1.0.20
 
 NOTICE:
  Copyright(C) 2016-2020 Renesas Electronics Corporation.

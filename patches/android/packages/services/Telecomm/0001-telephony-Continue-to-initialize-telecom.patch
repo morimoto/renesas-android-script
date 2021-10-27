@@ -1,4 +1,4 @@
-From c7337d1bb69f9a242bc96404de88f1cebe4316ad Mon Sep 17 00:00:00 2001
+From 8497a106b074c0f32f2056de06b33de46cf95e82 Mon Sep 17 00:00:00 2001
 From: Oleh Cherpak <oleh.cherpak@globallogic.com>
 Date: Tue, 21 Jul 2020 16:58:28 +0300
 Subject: [PATCH] telephony: Continue to initialize telecom
@@ -21,10 +21,10 @@ Change-Id: I4bf175b405a54e04593afe376a0cc19f9a9c4e4d
  2 files changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/src/com/android/server/telecom/TelecomServiceImpl.java b/src/com/android/server/telecom/TelecomServiceImpl.java
-index 62e0f3fe1..57c2915c2 100644
+index 9ccae9a37..2033cffe3 100644
 --- a/src/com/android/server/telecom/TelecomServiceImpl.java
 +++ b/src/com/android/server/telecom/TelecomServiceImpl.java
-@@ -462,11 +462,14 @@ public class TelecomServiceImpl {
+@@ -479,11 +479,14 @@ public class TelecomServiceImpl {
              try {
                  Log.startSession("TSI.rPA");
                  synchronized (mLock) {
@@ -70,5 +70,5 @@ index 75c19968f..99cb3f964 100644
  
          String action = intent.getAction();
 -- 
-2.28.0
+2.29.0
 

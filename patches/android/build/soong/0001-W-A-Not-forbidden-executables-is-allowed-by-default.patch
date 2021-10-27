@@ -1,4 +1,4 @@
-From 93f7f876ca345e186e0990ab35defa0eebe54e80 Mon Sep 17 00:00:00 2001
+From fd1c6ab0cfa7ed0a801861a2f78aad0111154b98 Mon Sep 17 00:00:00 2001
 From: Oleksii Gulchenko <oleksii.gulchenko@globallogic.com>
 Date: Tue, 21 May 2019 16:57:05 +0300
 Subject: [PATCH] W/A: Not forbidden executables is allowed by default
@@ -27,5 +27,5 @@ index 571740133..8852f7d5f 100644
  
  var LinuxOnlyPrebuilt = PathConfig{
 -- 
-2.28.0
+2.29.0
 

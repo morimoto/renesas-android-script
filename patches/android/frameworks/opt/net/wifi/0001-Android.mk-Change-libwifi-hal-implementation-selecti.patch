@@ -1,4 +1,4 @@
-From 18bee774ae44ba41a7aa64ebf408951a408b27de Mon Sep 17 00:00:00 2001
+From 1dc9e008201bce8dc2657f2b409294d8830a7f9b Mon Sep 17 00:00:00 2001
 From: Oleh Cherpak <oleh.cherpak@globallogic.com>
 Date: Fri, 17 Jul 2020 13:37:52 +0300
 Subject: [PATCH] Android.mk: Change libwifi-hal implementation selection
@@ -42,5 +42,5 @@ index 7bdbc3259..4fc2dbf91 100644
  
  # The WiFi HAL that you should be linking.
 -- 
-2.28.0
+2.29.0
 

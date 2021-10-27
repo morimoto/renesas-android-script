@@ -30,11 +30,15 @@ POWERVR_PREBUILT_LIBS := \
     libIMGegl.so \
     libsrv_um.so \
     libusc.so \
-    libglslcompiler.so
+    libglslcompiler.so \
+    libAppHintsIPC.so \
+    vendor.imagination.gpu.apphints@1.0.so  \
+    hw/android.hardware.graphics.mapper@4.0-impl.so
 
 POWERVR_PREBUILT_EXEC := \
     pvrsrvctl \
-    hw/android.hardware.atrace@1.0-service.img
+    hw/android.hardware.atrace@1.0-service.img \
+    hw/android.hardware.graphics.allocator@4.0-service
 
 ifeq ($(TARGET_BOARD_PLATFORM),r8a7795)
 POWERVR_PREBUILT_FW := \
@@ -55,7 +59,10 @@ endif
 POWERVR_PREBUILT_APPHINT := \
     powervr.ini \
     init/android.hardware.atrace@1.0-service.img.rc \
-    vintf/manifest/android.hardware.atrace@1.0-service.img.xml
+    vintf/manifest/android.hardware.atrace@1.0-service.img.xml \
+    init/android.hardware.graphics.allocator@4.0-service.img.rc \
+    vintf/manifest/android.hardware.graphics.allocator@4.0.img.xml \
+    vintf/manifest/android.hardware.graphics.mapper@4.0-passthrough.img.xml
 
 define _build-powervr-prebuilt-lib
 include $$(CLEAR_VARS)

@@ -1,4 +1,4 @@
-From 8842a7399ac7c3e9a1571bba00b775241ba41583 Mon Sep 17 00:00:00 2001
+From 5140f294d23d763ac18b2bad898b393cf017f8b2 Mon Sep 17 00:00:00 2001
 From: Oleksandr Shaposhnikov <o.shaposhnikov@globallogic.com>
 Date: Fri, 13 Mar 2020 16:43:34 +0200
 Subject: [PATCH] Fix call log duplication on reboot
@@ -46,5 +46,5 @@ index 718683e63..9f6c22cc8 100644
          }
      }
 -- 
-2.28.0
+2.29.0
 

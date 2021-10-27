@@ -1,0 +1,49 @@
+From 37c4c99635b9a08d942837ed9dff698fdf295b42 Mon Sep 17 00:00:00 2001
+From: sin_willxu <sin_willxu@mediatek.com>
+Date: Mon, 10 Aug 2020 20:36:50 +0800
+Subject: [PATCH 2/2] Register the action NETWORK_REQUEST in
+ CarDeveloperOptions Manifest
+
+There is no declaration for NetworkRequestDialogActivity in AndroidManifest.xml
+
+AOSP: https://android-review.googlesource.com/c/platform/packages/services/Car/+/1408047
+Jira-Id: ADM-5224
+Test:
+1 CTS-Verfier -> 'WIFI Test'
+2 click Network Request with a specific SSID and BSSID
+
+Bug: 166060547
+Signed-off-by: sin_willxu <sin_willxu@mediatek.com>
+Signed-off-by: Oleh Cherpak <oleh.cherpak@globallogic.com>
+Change-Id: Ib49053df1bb438a668bcff0be47e9aca7ff3744f
+---
+ tests/CarDeveloperOptions/AndroidManifest.xml | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/tests/CarDeveloperOptions/AndroidManifest.xml b/tests/CarDeveloperOptions/AndroidManifest.xml
+index 436d7f004..565d0fa48 100644
+--- a/tests/CarDeveloperOptions/AndroidManifest.xml
++++ b/tests/CarDeveloperOptions/AndroidManifest.xml
+@@ -197,5 +197,19 @@
+                        android:value="true" />
+         </activity>
+ 
++        <activity
++            android:name=".wifi.NetworkRequestDialogActivity"
++            android:theme="@style/Theme.AlertDialog"
++            android:excludeFromRecents="true"
++            android:launchMode="singleTop"
++            android:taskAffinity=".wifi.NetworkRequestDialogActivity"
++            android:exported="true"
++            android:permission="android.permission.NETWORK_SETTINGS">
++            <intent-filter>
++                <action android:name="com.android.settings.wifi.action.NETWORK_REQUEST" />
++                <category android:name="android.intent.category.DEFAULT" />
++            </intent-filter>
++        </activity>
++
+     </application>
+ </manifest>
+-- 
+2.29.0
+

@@ -12,10 +12,10 @@
 shift 1
 
 # Renesas Version
-R_VER=11_1.0
+R_VER=11_1.1
 
 # Android Version
-A_VER=android-11.0.0_r3
+A_VER=android-11.0.0_r17
 
 #
 # parse option

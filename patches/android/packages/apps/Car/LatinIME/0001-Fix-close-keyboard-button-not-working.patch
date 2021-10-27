@@ -1,0 +1,44 @@
+From 99306de59c4f5120ad5fc353b98b6d6aba149e2b Mon Sep 17 00:00:00 2001
+From: Artem Radchenko <artem.radchenko@globallogic.com>
+Date: Mon, 9 Nov 2020 15:32:03 +0200
+Subject: [PATCH] Fix close keyboard button not working
+
+When KEYCODE_CLOSE_KEYBOARD button is clicked, keyboard is not hidden.
+
+It is proposed to use requestHideSelf as proposed in:
+frameworks/base/core/java/android/inputmethodservice/InputMethodService.java:line 677
+
+Test: Manual.
+Click on input field to open screen-keyboard
+Click on close keyboard button.
+Signed-off-by: Artem Radchenko <artem.radchenko@globallogic.com>
+Change-Id: I21a9edce442091acc2dfb3539de4b1ba007844d1
+JiraId: ADM-5235
+---
+ src/com/android/inputmethod/latin/CarLatinIME.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/inputmethod/latin/CarLatinIME.java b/src/com/android/inputmethod/latin/CarLatinIME.java
+index a8d24c4..4453ba9 100644
+--- a/src/com/android/inputmethod/latin/CarLatinIME.java
++++ b/src/com/android/inputmethod/latin/CarLatinIME.java
+@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.inputmethod.EditorInfo;
+ import android.view.inputmethod.InputConnection;
++import android.view.inputmethod.InputMethodManager;
+ import android.widget.FrameLayout;
+ 
+ import com.android.inputmethod.latin.car.KeyboardView;
+@@ -296,7 +297,7 @@ public class CarLatinIME extends InputMethodService {
+                             //loadKeyboard(ALPHA_LAYOUT_XML);
+                             break;
+                         case KEYCODE_CLOSE_KEYBOARD:
+-                            hideWindow();
++                            requestHideSelf(InputMethodManager.HIDE_NOT_ALWAYS);
+                             break;
+                         case KEYCODE_CYCLE_CHAR:
+                             CharSequence text = inputConnection.getTextBeforeCursor(1, 0);
+-- 
+2.29.0
+

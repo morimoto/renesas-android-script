@@ -1,0 +1,71 @@
+From e62adbca31367fa5630503bb76e2d4303a3fa386 Mon Sep 17 00:00:00 2001
+From: Artem Radchenko <artem.radchenko@globallogic.com>
+Date: Thu, 19 Nov 2020 13:34:56 +0200
+Subject: [PATCH 3/5] Automotive: Fixed keyboard not shown after selecting user
+
+When user clicks cancel button, whole overlay view become not focusable.
+When returning to keyguard, view is still not focusable.
+Need to set focusable(true) when returning to keyguard.
+
+This is a partial fix, after changing user keyboard still doesn't show.
+
+Test: Manual.
+- Set password: adb shell locksettings set-password 0000
+- Lock board: adb shell input keyevent KEYCODE_POWER
+- Wake up: adb shell input keyevent KEYCODE_POWER
+- Click cancel button
+- Select same user
+- Click on password entry
+JiraId: ADM-5216
+Signed-off-by: Artem Radchenko <artem.radchenko@globallogic.com>
+Change-Id: Ia713c1fc7380e0aa753dd871f72d4b65727367e8
+---
+ .../userswitcher/FullscreenUserSwitcherViewMediator.java   | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java b/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java
+index 490cef1bb21b..270b4e7b7d71 100644
+--- a/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java
++++ b/packages/CarSystemUI/src/com/android/systemui/car/userswitcher/FullscreenUserSwitcherViewMediator.java
+@@ -17,6 +17,7 @@
+ package com.android.systemui.car.userswitcher;
+ 
+ import com.android.systemui.car.keyguard.CarKeyguardViewController;
++import com.android.systemui.car.window.OverlayViewGlobalStateController;
+ import com.android.systemui.car.window.OverlayViewMediator;
+ import com.android.systemui.plugins.statusbar.StatusBarStateController;
+ import com.android.systemui.statusbar.StatusBarState;
+@@ -35,18 +36,21 @@ public class FullscreenUserSwitcherViewMediator implements OverlayViewMediator {
+     private final FullScreenUserSwitcherViewController mFullScreenUserSwitcherViewController;
+     private final CarKeyguardViewController mCarKeyguardViewController;
+     private final UserSwitchTransitionViewController mUserSwitchTransitionViewController;
++    private final OverlayViewGlobalStateController mOverlayViewGlobalStateController;
+ 
+     @Inject
+     public FullscreenUserSwitcherViewMediator(
+             StatusBarStateController statusBarStateController,
+             CarKeyguardViewController carKeyguardViewController,
+             UserSwitchTransitionViewController userSwitchTransitionViewController,
+-            FullScreenUserSwitcherViewController fullScreenUserSwitcherViewController) {
++            FullScreenUserSwitcherViewController fullScreenUserSwitcherViewController,
++            OverlayViewGlobalStateController overlayViewGlobalStateController) {
+ 
+         mStatusBarStateController = statusBarStateController;
+         mCarKeyguardViewController = carKeyguardViewController;
+         mUserSwitchTransitionViewController = userSwitchTransitionViewController;
+         mFullScreenUserSwitcherViewController = fullScreenUserSwitcherViewController;
++        mOverlayViewGlobalStateController = overlayViewGlobalStateController;
+     }
+ 
+     @Override
+@@ -90,6 +94,7 @@ public class FullscreenUserSwitcherViewMediator implements OverlayViewMediator {
+ 
+     private void hide() {
+         mFullScreenUserSwitcherViewController.stop();
++        mOverlayViewGlobalStateController.setWindowFocusable(true);
+     }
+ 
+     private void show() {
+-- 
+2.29.0
+

@@ -1,0 +1,73 @@
+From e4611790ba1cf2ad578bffe21acdefca69d31b2e Mon Sep 17 00:00:00 2001
+From: Olof Axelsson <olof.axelsson@sony.com>
+Date: Mon, 23 Nov 2020 13:01:22 +0100
+Subject: [PATCH 5/5] Fixed a race contidion in StorageManagerService
+
+StorageManagerService#onVolumeStateChanged passes on a mutable
+object to onVolumeStateChangedLocked and onVolumeStateChangedAsync.
+This causes a race since the state of the object being passed can
+be updated while onVolumeStateChangedAsync is processing it.
+
+To fix this, a clone of the object is passed instead.
+
+Bug: 174056195
+Test: atest AdoptableHostTest
+Test: atest com.android.tests.fused.host.FuseDaemonHostTest
+
+Jira-Id:ADM-5108
+Change-Id: I4de32279ae740544bd3abe33d788ebdbef1eab00
+Signed-off-by: Dmytro Gamazin <dmytro.gamazin@globallogic.com>
+---
+ core/java/android/os/storage/VolumeInfo.java      | 15 +++++++++++++++
+ .../com/android/server/StorageManagerService.java |  5 +++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/os/storage/VolumeInfo.java b/core/java/android/os/storage/VolumeInfo.java
+index d7aaa4d6cbf9..f0c1c12d0500 100644
+--- a/core/java/android/os/storage/VolumeInfo.java
++++ b/core/java/android/os/storage/VolumeInfo.java
+@@ -199,6 +199,21 @@ public class VolumeInfo implements Parcelable {
+         internalPath = parcel.readString8();
+     }
+ 
++    public VolumeInfo(VolumeInfo volumeInfo) {
++        this.id = volumeInfo.id;
++        this.type = volumeInfo.type;
++        this.disk = volumeInfo.disk;
++        this.partGuid = volumeInfo.partGuid;
++        this.mountFlags = volumeInfo.mountFlags;
++        this.mountUserId = volumeInfo.mountUserId;
++        this.state = volumeInfo.state;
++        this.fsType = volumeInfo.fsType;
++        this.fsUuid = volumeInfo.fsUuid;
++        this.fsLabel = volumeInfo.fsLabel;
++        this.path = volumeInfo.path;
++        this.internalPath = volumeInfo.internalPath;
++    }
++
+     @UnsupportedAppUsage
+     public static @NonNull String getEnvironmentForState(int state) {
+         final String envState = sStateToEnvironment.get(state);
+diff --git a/services/core/java/com/android/server/StorageManagerService.java b/services/core/java/com/android/server/StorageManagerService.java
+index 678387c540ed..270bedcb5c51 100644
+--- a/services/core/java/com/android/server/StorageManagerService.java
++++ b/services/core/java/com/android/server/StorageManagerService.java
+@@ -1391,12 +1391,13 @@ class StorageManagerService extends IStorageManager.Stub
+                     final int oldState = vol.state;
+                     final int newState = state;
+                     vol.state = newState;
++                    final VolumeInfo vInfo = new VolumeInfo(vol);
+                     final SomeArgs args = SomeArgs.obtain();
+-                    args.arg1 = vol;
++                    args.arg1 = vInfo;
+                     args.arg2 = oldState;
+                     args.arg3 = newState;
+                     mHandler.obtainMessage(H_VOLUME_STATE_CHANGED, args).sendToTarget();
+-                    onVolumeStateChangedLocked(vol, oldState, newState);
++                    onVolumeStateChangedLocked(vInfo, oldState, newState);
+                 }
+             }
+         }
+-- 
+2.29.0
+
